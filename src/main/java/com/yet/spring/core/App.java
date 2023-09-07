@@ -3,26 +3,28 @@ package com.yet.spring.core;
 import com.yet.spring.core.beans.Client;
 import com.yet.spring.core.beans.Event;
 import com.yet.spring.core.loggers.EventLogger;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.io.IOException;
 
 public class App {
     private Client client;
-    private EventLogger consoleEventLogger;
+    private EventLogger eventLogger;
 
-    public App(Client client, EventLogger consoleEventLogger) {
+    public App(Client client, EventLogger eventLogger) {
         this.client = client;
-        this.consoleEventLogger = consoleEventLogger;
+        this.eventLogger = eventLogger;
     }
 
-    private void logEvent(Event event, String msg) {
+    private void logEvent(Event event, String msg) throws IOException {
         String message = msg.replaceAll(client.getId(), client.getFullName());
         event.setMsg(message);
-        consoleEventLogger.logEvent(event);
+        eventLogger.logEvent(event);
     }
 
-    public static void main(String[] args) {
-        ApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
+    public static void main(String[] args) throws IOException {
+        ConfigurableApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
 
         App app = ctx.getBean(App.class);
 
@@ -31,5 +33,7 @@ public class App {
 
         event = ctx.getBean(Event.class);
         app.logEvent(event, "User 2 joined");
+
+        ctx.close();
     }
 }
