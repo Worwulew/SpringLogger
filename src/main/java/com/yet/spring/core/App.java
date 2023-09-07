@@ -1,6 +1,7 @@
 package com.yet.spring.core;
 
 import com.yet.spring.core.beans.Client;
+import com.yet.spring.core.beans.Event;
 import com.yet.spring.core.loggers.EventLogger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -14,16 +15,21 @@ public class App {
         this.consoleEventLogger = consoleEventLogger;
     }
 
-    private void logEvent(String msg) {
+    private void logEvent(Event event, String msg) {
         String message = msg.replaceAll(client.getId(), client.getFullName());
-        consoleEventLogger.logEvent(message);
+        event.setMsg(message);
+        consoleEventLogger.logEvent(event);
     }
 
     public static void main(String[] args) {
         ApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
 
-        App app = (App) ctx.getBean("app");
+        App app = ctx.getBean(App.class);
 
-        app.logEvent("User 1 joined");
+        Event event = ctx.getBean(Event.class);
+        app.logEvent(event, "User 1 joined");
+
+        event = ctx.getBean(Event.class);
+        app.logEvent(event, "User 2 joined");
     }
 }
