@@ -43,13 +43,13 @@ public class App {
         App app = ctx.getBean(App.class);
 
         Event event = ctx.getBean(Event.class);
-        app.logEvent(event, "User 1 joined", EventType.INFO);
+        app.logEvent(event, "User 1 " + app.client.getGreeting(), EventType.INFO);
 
         event = ctx.getBean(Event.class);
-        app.logEvent(event, "User 2 joined", EventType.ERROR);
+        app.logEvent(event, "User 2 " + app.client.getGreeting(), EventType.ERROR);
 
         event = ctx.getBean(Event.class);
-        app.logEvent(event, "User 3 joined", null);
+        app.logEvent(event, "User 3 " + app.client.getGreeting(), null);
 
         ctx.close();
     }

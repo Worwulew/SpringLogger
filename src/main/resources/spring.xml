@@ -5,11 +5,21 @@
  		http://www.springframework.org/schema/beans
  		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
-    <bean id="client" class="com.yet.spring.core.beans.Client">
-        <constructor-arg index="0" value="1"/>
-        <constructor-arg index="1" value="Egon Schiele"/>
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:client.properties</value>
+            </list>
+        </property>
+        
+        <property name="ignoreResourceNotFound" value="true"/>
+    </bean>
 
-        <property name="greeting" value="Hello there!"/>
+    <bean id="client" class="com.yet.spring.core.beans.Client">
+        <constructor-arg index="0" value="${id}"/>
+        <constructor-arg index="1" value="${name}"/>
+
+        <property name="greeting" value="${greeting}"/>
     </bean>
 
     <import resource="loggers.xml"/>
