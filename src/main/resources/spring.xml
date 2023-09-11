@@ -8,6 +8,8 @@
     <bean id="client" class="com.yet.spring.core.beans.Client">
         <constructor-arg index="0" value="1"/>
         <constructor-arg index="1" value="Egon Schiele"/>
+
+        <property name="greeting" value="Hello there!"/>
     </bean>
 
     <import resource="loggers.xml"/>
@@ -15,6 +17,14 @@
     <bean id="app" class="com.yet.spring.core.App">
         <constructor-arg ref="client"/>
         <constructor-arg ref="cfEventLogger"/>
+        <constructor-arg>
+            <map>
+                <entry key="INFO" value-ref="eventLogger"/>
+                <entry key="ERROR" value-ref="combinedLogger"/>
+            </map>
+        </constructor-arg>
+
+        <property name="defaultLogger" ref="cfEventLogger"/>
     </bean>
 
     <bean id="event" class="com.yet.spring.core.beans.Event" scope="prototype">

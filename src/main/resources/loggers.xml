@@ -16,4 +16,13 @@
         <constructor-arg index="0" value="./cacheOutput.txt"/>
         <constructor-arg index="1" value="4"/>
     </bean>
+
+    <bean id="combinedLogger" class="com.yet.spring.core.loggers.CombinedEventLogger">
+        <constructor-arg>
+            <list>
+                <ref bean="eventLogger"/>
+                <ref bean="fEventLogger"/>
+            </list>
+        </constructor-arg>
+    </bean>
 </beans>
